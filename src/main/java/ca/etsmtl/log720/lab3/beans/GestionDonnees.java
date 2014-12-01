@@ -4,10 +4,9 @@ import java.util.ArrayList;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-
 import ca.etsmtl.log720.lab3.exceptions.InvalidLoginException;
 import ca.etsmtl.log720.lab3.objetsDonnees.*;
 
@@ -19,6 +18,10 @@ public class GestionDonnees
 	private static ServiceRegistry sr				= null;
 	private static SessionFactory sessionFactory	= null;
 	
+	private static DossierHome dh					= null;
+	private static InfractionHome ih				= null;
+	private static UtilisateurHome uh				= null;
+	private static RoleHome rh						= null;
 	
 	private static GestionDonnees instance = null;
 	
@@ -28,17 +31,15 @@ public class GestionDonnees
 	private GestionDonnees(){
 		
 		try{
+			dh = new DossierHome();
+			ih = new InfractionHome();
+			uh = new UtilisateurHome();
+			rh = new RoleHome();
 			
-			conf 				= new Configuration().configure();
-			sr					= new StandardServiceRegistryBuilder().applySettings(conf.getProperties()).build();
-			sessionFactory		= conf.buildSessionFactory(sr);
 		}
 		catch(Exception e){
 			System.out.println("Session factory FAILED !!! :" + e.getMessage());
 		}
-		
-		dossiers 		= getData(Dossier.class);
-		infractions		= getData(Infraction.class);
 		
 		addInfraction("Excès de vitesse", 1);
 		addInfraction("Conduite imprudente", 3);
@@ -75,8 +76,8 @@ public class GestionDonnees
 		dossier.setPrenom(prenom);
 		dossier.setNumeroplaque(numPlaque);
 		dossier.setNumeropermis(permisDeConduire);
-		
-		storeData(Dossier.class, dossier);
+	
+		dh.persist(dossier);
 		dossiers.add(dossier);
 		
 		System.out.println("Dossier ajouté!");
@@ -84,12 +85,37 @@ public class GestionDonnees
 	
 	public ArrayList<Dossier> getDossiers ()
 	{
+		boolean endIsReached = false;
+		int cpt = 1;
+		dossiers.clear();
+		while(!endIsReached){
+			
+			try{
+				dossiers.add(dh.findById(cpt++));
+			}
+			catch(Exception e){
+				endIsReached = true;
+			}
+		}
 		//Récupère tous les dossiers
 		return dossiers;
 	}
 	
 	public ArrayList<Infraction> getInfractions ()
 	{
+		boolean endIsReached = false;
+		int cpt = 1;
+		infractions.clear();
+		while(!endIsReached){
+			
+			try{
+				infractions.add(ih.findById(cpt++));
+			}
+			catch(Exception e){
+				endIsReached = true;
+			}
+		}
+		
 		//Récupère toutes les infractions
 		return infractions;
 	}
@@ -122,89 +148,36 @@ public class GestionDonnees
 		infraction.setNiveaugravite(gravite);
 		
 		infractions.add(infraction);
-		storeData(Infraction.class, infraction);
+		
+		ih.persist(infraction);
 		
 		System.out.println("Infraction ajoutée");
 	}
 	
 	public String validateLogin(String username, String password) throws InvalidLoginException
 	{
-		Utilisateur utilisateur = new Utilisateur();
+		ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
 		
-		try{
-			utilisateur = getData(Utilisateur.class, "login="+username, "password="+password).get(0);
-		}
-		catch(Exception e){
-			throw new InvalidLoginException();
-		}
-		
-		if(utilisateur == null){
-			throw new InvalidLoginException();
-		}
-		
-		return utilisateur.getLogin().toString();
-		
-	}
-	
-	private <T> void storeData(Class<T> classType, Object object){
-		
-		try{
-			Session session = sessionFactory.getCurrentSession();
-			session.beginTransaction();
-			session.saveOrUpdate((T) object);
-			session.getTransaction().commit();
-		}
-		
-		catch(Exception e){
-			System.out.println(e.getMessage());
-		}
-		
-	}
-	
-	private <T> ArrayList<T> getData(Class<T> classType){
-		
-		ArrayList<T> objectsList = new ArrayList<T>();
-		
-		try{
-			Session session = sessionFactory.getCurrentSession();
-			session.beginTransaction();
-			objectsList = (ArrayList<T>) session.createQuery("from " + classType).list();
-			session.getTransaction().commit();
-		}
-		
-		catch(Exception e){
-			System.out.println(e.getMessage());
-		}
-		
-		return objectsList;
-	}
-	
-	private <T> ArrayList<T> getData(Class<T> classType, String ...parameters){
-		
-		ArrayList<T> objects = null;
-		String sqlQuery = "from " + classType.getCanonicalName() + " where";
-		try{
-			Session session = sessionFactory.getCurrentSession();
+		boolean endIsReached = false;
+		int cpt = 1;
+		utilisateurs.clear();
+		while(!endIsReached){
 			
-			session.beginTransaction();
-			for (int i = 0; i < parameters.length; i++){
-				sqlQuery += " " + parameters[i];
-				if(i < parameters.length - 1){
-					sqlQuery += " and";
-				}
+			try{
+				utilisateurs.add(uh.findById(cpt++));
 			}
+			catch(Exception e){
+				endIsReached = true;
+			}
+		}
+		
+		for (Utilisateur user : utilisateurs){
 			
-			org.hibernate.Query query = session.createQuery(sqlQuery);
-			objects = (ArrayList<T>) query.list();
-			session.getTransaction().commit();
+			if (user.getLogin().equals(username) && user.getPassword().equals(password)){
+				return user.getLogin().toString();
+			}
 		}
 		
-		catch(Exception e){
-	
-			System.out.println("ERREUR DURANT LA RECUPERATION (" + classType + ", SQL : " + sqlQuery + ") : " + e);
-		}
-		
-		
-		return objects;
+		return null;	
 	}
 }

@@ -6,7 +6,5 @@
   <table-filter match-schema="public" match-name="dossier_infraction"/>
   <table-filter match-schema="public" match-name="infraction"/>
   <table-filter match-schema="public" match-name="role"/>
-  <table-filter match-schema="public" match-name="testdata"/>
-  <table-filter match-schema="public" match-name="testdata" exclude="true"/>
   <table-filter match-schema="public" match-name="utilisateur"/>
 </hibernate-reverse-engineering>

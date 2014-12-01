@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2014-11-29 16:03:21 by Hibernate Tools 3.4.0.CR1 -->
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-12-01 02:55:37 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="ca.etsmtl.log720.tutoriel_lab2.TestJeeMvc.objetsDonnees.Role" table="role" schema="public">
+    <class name="ca.etsmtl.log720.lab3.objetsDonnees.Role" table="role" schema="public" optimistic-lock="version">
         <id name="id" type="int">
             <column name="id" />
             <generator class="assigned" />
@@ -15,7 +15,7 @@
             <key>
                 <column name="roleid" />
             </key>
-            <one-to-many class="ca.etsmtl.log720.tutoriel_lab2.TestJeeMvc.objetsDonnees.Utilisateur" />
+            <one-to-many class="ca.etsmtl.log720.lab3.objetsDonnees.Utilisateur" />
         </set>
     </class>
 </hibernate-mapping>
