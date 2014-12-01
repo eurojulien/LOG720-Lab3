@@ -1,3 +1,5 @@
+//Auteur: Alex Gagnon
+
 package ca.etsmtl.log720.lab3.beans; 
 
 import java.util.ArrayList;
