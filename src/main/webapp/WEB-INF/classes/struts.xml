@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<package name="ca.etsmtl.log720.lab3" extends="struts-default">
+	
+		<interceptors>
+			<interceptor name="login" class="ca.etsmtl.log720.lab3.interceptors.LoginInterceptor"></interceptor>
+			<interceptor name="admin" class="ca.etsmtl.log720.lab3.interceptors.AdminInterceptor"></interceptor>
+			<interceptor name="police" class="ca.etsmtl.log720.lab3.interceptors.PoliceInterceptor"></interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="login" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+			<interceptor-stack name="AdminRoleStack">
+				<interceptor-ref name="login" />
+				<interceptor-ref name="admin" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+			<interceptor-stack name="PoliceRoleStack">
+				<interceptor-ref name="login" />
+				<interceptor-ref name="police" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+	
+		<global-results>
+			<result name="login" type="dispatcher">
+			    /login.jsp
+			</result>
+			<result name="refuse" type="dispatcher">
+			    /acces_refuse.jsp
+			</result>
+		</global-results>
+		
+		<action name="login" class="ca.etsmtl.log720.lab3.actions.LoginAction"
+			method="login">
+			<result name="success" type="chain">menu</result>
+			<result name="failure">/fail_login.jsp</result>
+		</action>
+		
+		<action name="deconnexion" class="ca.etsmtl.log720.lab3.actions.LoginAction"
+			method="logout">
+			<result name="success">/login.jsp</result>
+		</action>
+		
+		<action name="menu" class="ca.etsmtl.log720.lab3.actions.MenuAction"
+			method="execute">
+			<interceptor-ref name="loginStack" />
+			<result name="success">/menu.jsp</result>
+		</action>
+		
+		<action name="listeDossiers" class="ca.etsmtl.log720.lab3.actions.ListeDossiersAction"
+			method="afficherListe">
+			<interceptor-ref name="loginStack" />
+			<result name="success">/listeDossiers.jsp</result>
+		</action>
+		
+		<action name="ajouterDossier" class="ca.etsmtl.log720.lab3.actions.ListeDossiersAction"
+			method="ajouterDossier">
+			<interceptor-ref name="AdminRoleStack" />
+			<result name="success">/listeDossiers.jsp</result>
+		</action>
+		
+		<action name="listeInfractions" class="ca.etsmtl.log720.lab3.actions.ListeInfractionsAction"
+			method="afficherListe">
+			<interceptor-ref name="loginStack" />
+			<result name="success">/listeInfractions.jsp</result>
+		</action>
+		
+		<action name="ajouterInfraction" class="ca.etsmtl.log720.lab3.actions.ListeInfractionsAction"
+			method="ajouterInfraction">
+			<interceptor-ref name="AdminRoleStack" />
+			<result name="success">/listeInfractions.jsp</result>
+		</action>
+		
+		<action name="listeInfractionsDossier" class="ca.etsmtl.log720.lab3.actions.ListeInfractionsDossiersAction"
+			method="afficherListeInfractionsDossier">
+			<interceptor-ref name="loginStack" />
+			<result name="success">/listeInfractionsDossier.jsp</result>
+		</action>
+		
+		<action name="ajouterInfractionDossier" class="ca.etsmtl.log720.lab3.actions.ListeInfractionsDossiersAction"
+			method="ajouterInfractionDossier">
+			<interceptor-ref name="PoliceRoleStack" />
+			<result name="success">/listeInfractionsDossier.jsp</result>
+		</action>
+		
+	</package>
+</struts>

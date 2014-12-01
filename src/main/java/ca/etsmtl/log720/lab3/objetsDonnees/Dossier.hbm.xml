@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-11-29 16:03:21 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="ca.etsmtl.log720.tutoriel_lab2.TestJeeMvc.objetsDonnees.Dossier" table="dossier" schema="public">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="nom" type="string">
+            <column name="nom" length="100" />
+        </property>
+        <property name="prenom" type="string">
+            <column name="prenom" length="100" />
+        </property>
+        <property name="numeroplaque" type="string">
+            <column name="numeroplaque" length="50" />
+        </property>
+        <property name="numeropermis" type="string">
+            <column name="numeropermis" length="50" unique="true" />
+        </property>
+        <set name="dossierInfractions" table="dossier_infraction" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="dossier_id" not-null="true" />
+            </key>
+            <one-to-many class="ca.etsmtl.log720.tutoriel_lab2.TestJeeMvc.objetsDonnees.DossierInfraction" />
+        </set>
+    </class>
+</hibernate-mapping>
