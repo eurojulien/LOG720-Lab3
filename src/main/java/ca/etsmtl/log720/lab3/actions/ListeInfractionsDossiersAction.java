@@ -8,10 +8,10 @@ import ca.etsmtl.log720.lab3.objetsDonnees.Infraction;
 import ca.etsmtl.log720.lab3.util.GestionLogin;
 
 public class ListeInfractionsDossiersAction {
-	private ArrayList<Infraction> infractionsDossier; //Liste des infractions du dossier
-	private ArrayList<Infraction> listeInfractions; //Liste des infractions de la liste déroulante
+	private ArrayList<ca.etsmtl.log720.lab3.donnees.Infraction> infractionsDossier; //Liste des infractions du dossier
+	private ArrayList<ca.etsmtl.log720.lab3.donnees.Infraction> listeInfractions; //Liste des infractions de la liste déroulante
 	private String dossierId;
-	private Dossier dossier;
+	private ca.etsmtl.log720.lab3.donnees.Dossier dossier;
 	private String infractionId;
 	
 	String role;
@@ -66,20 +66,20 @@ public class ListeInfractionsDossiersAction {
 		setListeInfractions(donnees.getInfractions());
 	}
 
-	public ArrayList<Infraction> getInfractionsDossier() {
+	public ArrayList<ca.etsmtl.log720.lab3.donnees.Infraction> getInfractionsDossier() {
 		return infractionsDossier;
 	}
 
-	public void setInfractionsDossier(ArrayList<Infraction> infractionsDossier) {
-		this.infractionsDossier = infractionsDossier;
+	public void setInfractionsDossier(ArrayList<ca.etsmtl.log720.lab3.donnees.Infraction> arrayList) {
+		this.infractionsDossier = arrayList;
 	}
 
-	public Dossier getDossier() {
+	public ca.etsmtl.log720.lab3.donnees.Dossier getDossier() {
 		return dossier;
 	}
 
-	public void setDossier(Dossier dossier) {
-		this.dossier = dossier;
+	public void setDossier(ca.etsmtl.log720.lab3.donnees.Dossier dossier2) {
+		this.dossier = dossier2;
 	}
 	
 	public String getDossierId() {
@@ -90,12 +90,12 @@ public class ListeInfractionsDossiersAction {
 		this.dossierId = dossierId;
 	}
 
-	public ArrayList<Infraction> getListeInfractions() {
+	public ArrayList<ca.etsmtl.log720.lab3.donnees.Infraction> getListeInfractions() {
 		return listeInfractions;
 	}
 
-	public void setListeInfractions(ArrayList<Infraction> listeInfractions) {
-		this.listeInfractions = listeInfractions;
+	public void setListeInfractions(ArrayList<ca.etsmtl.log720.lab3.donnees.Infraction> arrayList) {
+		this.listeInfractions = arrayList;
 	}
 	
 	public String getInfractionId() {
