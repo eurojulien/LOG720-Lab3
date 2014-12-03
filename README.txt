@@ -1,5 +1,8 @@
 Bonjour, ce document contient les instructions afin de déployer cette application Web sur votre serveur tomcat.
 
+- Maven doit être installé
+- La base de données PostGreSQL doit être installée (Il est également possible de proposer l'installation de PGAdmin)
+
 1) Si votre projet ne contient pas de fichier WAR :
  a) Aller sous la racine de votre projet
  b) Ouvrir une fenêtre de commande

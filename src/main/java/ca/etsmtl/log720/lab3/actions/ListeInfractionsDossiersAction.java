@@ -57,15 +57,15 @@ public class ListeInfractionsDossiersAction {
 	{
 		GestionDonnees donnees = GestionDonnees.getInstance();
 		
-		setInfractionsDossier(donnees.getInfractionsDossier(Integer.parseInt(dossierId)));
-		setDossier(donnees.getDossier(Integer.parseInt(dossierId)));
+		//setInfractionsDossier(donnees.getInfractionsDossier(Integer.parseInt(dossierId)));
+		//setDossier(donnees.getDossier(Integer.parseInt(dossierId)));
 	}
 	
 	public void chargerListeInfractions()
 	{
 		GestionDonnees donnees = GestionDonnees.getInstance();
 		
-		setListeInfractions(donnees.getInfractions());
+		//setListeInfractions(donnees.getInfractions());
 	}
 
 	public ArrayList<ca.etsmtl.log720.lab3.donnees.Infraction> getInfractionsDossier() {

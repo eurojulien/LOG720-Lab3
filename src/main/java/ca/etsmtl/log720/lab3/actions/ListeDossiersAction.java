@@ -5,7 +5,7 @@ package ca.etsmtl.log720.lab3.actions;
 import java.util.ArrayList;
 
 import ca.etsmtl.log720.lab3.beans.GestionDonnees;
-import ca.etsmtl.log720.lab3.donnees.Dossier;
+import ca.etsmtl.log720.lab3.objetsDonnees.*;
 import ca.etsmtl.log720.lab3.util.GestionLogin;
 import ca.etsmtl.log720.lab3.util.HTMLFilter;
 

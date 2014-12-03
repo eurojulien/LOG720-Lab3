@@ -3,7 +3,8 @@
 "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory name="hibernate_log720_lab3">
+    <session-factory name="hibernate">
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.password">Log7203</property>
         <property name="hibernate.connection.url">jdbc:postgresql://log720.logti.etsmtl.ca:5432/log720_20143_5</property>

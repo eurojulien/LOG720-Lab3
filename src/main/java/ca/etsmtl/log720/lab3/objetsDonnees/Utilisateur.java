@@ -1,6 +1,6 @@
 package ca.etsmtl.log720.lab3.objetsDonnees;
 
-// Generated 2014-12-01 02:55:37 by Hibernate Tools 4.3.1
+// Generated 2014-12-01 14:41:34 by Hibernate Tools 4.3.1
 
 import java.io.Serializable;
 
