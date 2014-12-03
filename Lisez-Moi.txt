@@ -1,0 +1,86 @@
+Instructions de déploiement de l'application web:
+
+Note : Veuillez la liste des éléments requis pour le lancement de l'application
+
+1) Compilation du fichier WAR :
+ a) Ouvrir une fenêtre de commande
+ c) Accéder à la racine de votre projet sous l'invite de commande
+ d) Lancer la commande mvn package
+ e) Le WAR se trouvera sous le répertoire 'target' de votre projet
+
+2) Déploiement sous Tomcat
+ a) Copier votre fichier WAR
+ b) Accéder au répertoire de votre serveur tomcat
+ c) Déposer le WAR sous répertoire webapp (Il est recommandé de renommer votre WAR pour un nom plus convivial.)
+ d) Au démarrage du serveur, le fichier WAR sera automatiquement déployé.
+
+//TODO: TOMCAT
+3) Environnement de travail
+ a) Si vous n'avez pas de serveur tomcat préinstallé, télécharger la version la plus récente sur le site de tomcat (http://tomcat.apache.org/)
+ b) Si vous disposez d'une installation Tomcat dans un dossier ou vous n'avez pas l'accès en écriture, créez un dossier tomcat dans un endroit ou vous les possédez, et créez les dossiers suivants:
+  b.1) conf, lib, logs, temp, webapps, work
+ b) Configurer les variables d'environnement suivantes:
+  a.1) CATALINA_HOME : Répertoire racine de tomcat, c'est à dire le dossier parent du dossier bin.
+  a.2) CATALINA_BASE : Répertoire de vos dossiers Tomcat personnels, si existant (Par exemple : "J:/tomcat"), identique à CATALINA_HOME si vous employez directement Tomcat
+
+4) Démarrage de Tomcat
+ a) Accéder au répertoire "bin" sous le répertoire racine de votre serveur tomcat
+ b) Lancer startup.bat
+
+5) Accéder à l'application
+ a) Démarrer votre navigateur web (nous recommandons Firefox ou Google Chrome)
+ b) Accéder à : http://localhost:8080/NOM_DE_VOTRE_WAR (sans extension ".war")
+ 
+
+Liste des éléments nécessaire à l'environnement de travail
+
+ - Base de données : PostgreSQL (http://jdbc.postgresql.org/download.html)
+  : Cette bases de données permet la persistance des informations au sein de l'application 
+  - Interface graphique PGAdmin III (http://www.pgadmin.org/download/)
+  - Paramètres de connexion
+   - Name : À votre discrétion
+   - Host : log720.logti.etsmtl.ca
+   - Port : 5432
+   - Maintenance BD : log720_20143_5
+   - Username : (Votre code universel en minuscule) Ex : aj75050
+   - Password : Log7203
+  -> La base de données se nomme : log720_20143_5
+  - Le fichier pom.xml contient la dépendance de PostgreSQL nécessaire à la connexion de 
+    l'application à la base de données. Dans le cas ou vous ne trouvez pas ce driver, 
+    lancez la commande mvn compile sous le répertoire ou se situe le fichier pom.xml
+
+ - ORM : Hibernate 4.3.7 (http://hibernate.org/orm/documentation/getting-started/)
+  - Hibernate sers de mappage entre les classes Java des données et leur homologues sous SQL
+  - Dans le cas ou votre projet ne contient pas la configuration nécessaire afin d'utiliser
+    Hibernate, voici les étapes nécessaire à son installation.
+
+    1)  Dans Éclipse (Luna),
+		help->"Install New Software"
+			Add-> Name : "Hibernate"
+			      Location : "http://download.jboss.org/jbosstools/updates/stable/luna/"
+
+
+		Sélectionnez les modules suivants : Hibernates tools
+
+    2) Configurer Hibernate
+	2.1) Window -> Show Perspective -> Hibernate
+	2.2) Allez sous l'onglet : "Hibernate Configuration"
+	2.3) Cliquez sur "add configuration"
+		-> Name : hibernate
+		-> Hibernate Versions : 4.3
+		-> Project : Projet en cours
+		-> Property file -> Setup -> Create new ...
+			=> Choisir l'emplacement du fichier de propriété (Il est recommander que cet emplacement sois sous "src/main/java/Votre répertoire")
+ 		-> Configuration file -> Setup -> Create new...
+			=> Choisir l'emplacement du fichier de configuration (Il est recommander que cet emplacement sois sous "src/main/java/Votre répertoire")
+			 => Session Factory Name : "hibernate_config"
+			 => Database dialect 	: PostgreSQL
+			 => Driver class 	: org.postgresql.Driver
+			 => Connection URL	: jdbc:postgresql:
+			 => Username		: aj75050
+			 => Password		: Log7203
+			=> Cliquer sur Finish
+		-> Allez sous l'onglet "classpath"
+			-> Si le driver postgreSQL n'est pas sélectionné :
+				
+ 
