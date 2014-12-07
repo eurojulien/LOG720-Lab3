@@ -1,8 +1,7 @@
 package ca.etsmtl.log720.lab3.objetsDonnees;
 
-// Generated 2014-12-01 14:41:34 by Hibernate Tools 4.3.1
+// Generated 2014-12-07 10:24:11 by Hibernate Tools 4.3.1
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +11,7 @@ import java.util.Set;
 public class Role implements java.io.Serializable {
 
 	private int id;
-	private Serializable name;
+	private String name;
 	private Set utilisateurs = new HashSet(0);
 
 	public Role() {
@@ -22,7 +21,7 @@ public class Role implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Role(int id, Serializable name, Set utilisateurs) {
+	public Role(int id, String name, Set utilisateurs) {
 		this.id = id;
 		this.name = name;
 		this.utilisateurs = utilisateurs;
@@ -36,11 +35,11 @@ public class Role implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Serializable getName() {
+	public String getName() {
 		return this.name;
 	}
 
-	public void setName(Serializable name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 

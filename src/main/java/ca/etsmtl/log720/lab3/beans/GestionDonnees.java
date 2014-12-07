@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 import ca.etsmtl.log720.lab3.exceptions.InvalidLoginException;
 import ca.etsmtl.log720.lab3.objetsDonnees.*;
@@ -23,8 +22,8 @@ public class GestionDonnees
 	
 	private static GestionDonnees instance = null;
 	
-	ArrayList<Dossier> dossiers = new ArrayList<Dossier>();
-	ArrayList<Infraction> infractions = new ArrayList<Infraction>();
+	ArrayList<Dossier> dossiers = null;
+	ArrayList<Infraction> infractions = null;
 
 	private GestionDonnees(){
 		
@@ -40,14 +39,7 @@ public class GestionDonnees
 			System.out.println("Session factory FAILED !!! :" + e.getMessage());
 		}
 		
-		addInfraction("Excès de vitesse", 1);
-		addInfraction("Conduite imprudente", 3);
-		addInfraction("Conduite avec facultés affaiblies", 5);
-		addInfraction("Chasse au chevreuil", 10);
-		
-		addDossier("Bleau", "Jos", "123 ABC", "P3RM15");
-		addDossier("Cipher", "Luc", "666 HEL", "4Permis5");
-		addDossier("St-Hilaire", "Huguette", "456 DEF", "AsdfPermis");
+		initData();
 		
 	}
 	
@@ -60,6 +52,28 @@ public class GestionDonnees
 		return instance;
 	}
 	
+	private void initData(){
+		
+		dossiers 	= new ArrayList<Dossier>();
+		infractions = new ArrayList<Infraction>();
+		
+		dossiers.addAll(getData(Dossier.class));
+		infractions.addAll(getData(Infraction.class));
+	
+		if (infractions.size() == 0){
+			addInfraction("Excès de vitesse", 1);
+			addInfraction("Conduite imprudente", 3);
+			addInfraction("Conduite avec facultés affaiblies", 5);
+			addInfraction("Chasse au chevreuil", 10);
+		}
+		
+		if(dossiers.size() == 0){
+			addDossier("Bleau", "Jos", "123 ABC", "P3RM15");
+			addDossier("Cipher", "Luc", "666 HEL", "4Permis5");
+			addDossier("St-Hilaire", "Huguette", "456 DEF", "AsdfPermis");
+		}
+	}
+
 	public Dossier getDossier (int ID)
 	{
 		//Retourne un dossier spécifique
@@ -150,15 +164,18 @@ public class GestionDonnees
 		Utilisateur utilisateur = new Utilisateur();
 		
 		try{
-			utilisateur = getData(Utilisateur.class, "login ="+username, "password ="+password).get(0);
+			utilisateur = getData(Utilisateur.class, "login = '"+username+"'", "userpassword = '"+password+"'").get(0);
 		}
 		
 		catch(Exception e){
 			System.out.println("Erreur dans validateLogin : " + e.getMessage());
 		}
 		
-				
-		return utilisateur.getLogin().toString();	
+		if (utilisateur.getRole() != null){
+			return utilisateur.getRole().toString();
+		}
+		
+		return "";
 	}
 	
 
@@ -179,6 +196,7 @@ public class GestionDonnees
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private <T> ArrayList<T> getData(Class<T> classType){
 		
 		ArrayList<T> objectsList = new ArrayList<T>();
@@ -186,7 +204,7 @@ public class GestionDonnees
 		try{
 			Session session = sessionFactory.openSession();
 			session.beginTransaction();
-			objectsList = (ArrayList<T>) session.createQuery("from " + classType).list();
+			objectsList = ((ArrayList<T>) session.createQuery("from " + classType.getCanonicalName()).list());
 			session.getTransaction().commit();
 			session.close();
 		}
@@ -214,7 +232,7 @@ public class GestionDonnees
 			}
 			
 			org.hibernate.Query query = session.createQuery(sqlQuery);
-			objects = (ArrayList<T>) query.list();
+			objects = ((ArrayList<T>) query.list());
 			session.getTransaction().commit();
 			session.close();
 		}
