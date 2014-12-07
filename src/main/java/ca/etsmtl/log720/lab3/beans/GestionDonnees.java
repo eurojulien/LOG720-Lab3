@@ -172,10 +172,10 @@ public class GestionDonnees
 		}
 		
 		if (utilisateur.getRole() != null){
-			return utilisateur.getRole().toString();
+			return utilisateur.getLogin().toString();
 		}
 		
-		return "";
+		throw new InvalidLoginException();
 	}
 	
 
