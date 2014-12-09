@@ -28,7 +28,7 @@
 		<s:iterator value="infractions" var="infraction">
 			<tr>
 				<td><s:property value="#infraction.getDescription()" /></td>
-				<td><s:property value="#infraction.getGravite()" /></td>
+				<td><s:property value="#infraction.getNiveaugravite()" /></td>
 			</tr>
 		</s:iterator>
 	</table>
