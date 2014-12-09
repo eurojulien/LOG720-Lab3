@@ -57,8 +57,8 @@ public class ListeInfractionsDossiersAction {
 	{
 		GestionDonnees donnees = GestionDonnees.getInstance();
 		
-		//setInfractionsDossier(donnees.getInfractionsDossier(Integer.parseInt(dossierId)));
-		//setDossier(donnees.getDossier(Integer.parseInt(dossierId)));
+		setInfractionsDossier(donnees.getInfractionsDossier(Integer.parseInt(dossierId)));
+		setDossier(donnees.getDossier(Integer.parseInt(dossierId)));
 	}
 	
 	public void chargerListeInfractions()
