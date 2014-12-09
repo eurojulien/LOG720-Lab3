@@ -33,10 +33,7 @@ public class ListeInfractionsDossiersAction {
 	public String ajouterInfractionDossier() throws Exception {
 		
 		setRole(GestionLogin.getRole());
-		
-		chargerDossier();
-		chargerListeInfractions();
-		
+				
 		GestionDonnees donnees = GestionDonnees.getInstance();
 		
 		try
@@ -49,6 +46,9 @@ public class ListeInfractionsDossiersAction {
 		}
 		
 		message = "Infraction ajoutée avec succès";
+		
+		chargerDossier();
+		chargerListeInfractions();
 		
 		return "success";
 	}

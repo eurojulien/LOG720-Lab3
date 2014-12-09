@@ -91,7 +91,7 @@ public class GestionDonnees
 	public Dossier getDossier (int ID)
 	{
 		//Retourne un dossier spécifique
-		return dossiers.get(ID);
+		return dossiers.get(ID-1);
 	}
 	
 	public void addDossier (String nom, String prenom, String numPlaque, String permisDeConduire)
@@ -143,7 +143,7 @@ public class GestionDonnees
 	{
 		//Retourne une infraction spécifique
 		for(DossierInfraction di : dosInfs){
-			if (di.getDossier().getId() == idDossier && di.getInfraction().getId() == idInfraction){
+			if (di.getDossier().getId() == (idDossier-1) && di.getInfraction().getId() == (idInfraction-1)){
 				return di.getInfraction();
 			}
 		}
@@ -157,7 +157,7 @@ public class GestionDonnees
 		ArrayList<Infraction> infs = new ArrayList<Infraction>();
 		
 		for (DossierInfraction di : dosInfs){
-			if (di.getDossier().getId() == idDossier) {
+			if (di.getDossier().getId() == (idDossier-1)) {
 				infs.add(di.getInfraction());
 			}
 		}
@@ -169,9 +169,13 @@ public class GestionDonnees
 
 	public void addInfractionDossier(int idDossier, int idInfraction)
 	{
+		
+		System.out.println("addInfractionDossier idDossier : " + idDossier);
+		System.out.println("addInfractionDossier idInfraction : " + idInfraction);
+		System.out.println("addInfractionDossier idRelation : " + dosInfs.size() + 1);
 		try{
-			Infraction infraction 	= infractions.get(idInfraction);
-			Dossier dossier			= dossiers.get(idDossier);
+			Infraction infraction 	= infractions.get(idInfraction-1);
+			Dossier dossier			= dossiers.get(idDossier-1);
 			
 			DossierInfraction di	= new DossierInfraction();
 			
