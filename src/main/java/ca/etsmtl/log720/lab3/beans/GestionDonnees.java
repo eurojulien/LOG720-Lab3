@@ -3,6 +3,7 @@
 package ca.etsmtl.log720.lab3.beans; 
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -143,7 +144,7 @@ public class GestionDonnees
 	{
 		//Retourne une infraction spécifique
 		for(DossierInfraction di : dosInfs){
-			if (di.getDossier().getId() == (idDossier-1) && di.getInfraction().getId() == (idInfraction-1)){
+			if (di.getDossier().getId() == (idDossier) && di.getInfraction().getId() == (idInfraction)){
 				return di.getInfraction();
 			}
 		}
@@ -157,7 +158,7 @@ public class GestionDonnees
 		ArrayList<Infraction> infs = new ArrayList<Infraction>();
 		
 		for (DossierInfraction di : dosInfs){
-			if (di.getDossier().getId() == (idDossier-1)) {
+			if (di.getDossier().getId() == (idDossier)) {
 				infs.add(di.getInfraction());
 			}
 		}
@@ -180,11 +181,16 @@ public class GestionDonnees
 			DossierInfraction di	= new DossierInfraction();
 			
 			di.setId(dosInfs.size() + 1);
-			di.setDossier(dossiers.get(idDossier));
-			di.setInfraction(infractions.get(idInfraction));
+			di.setDossier(dossier);
+			di.setInfraction(infraction);
 			
 			dosInfs.add(di);
+			dossier.setDossierInfractions((Set) dosInfs);
+			infraction.setDossierInfractions((Set) dosInfs);
+			
 			storeData(DossierInfraction.class, di);
+			storeData(Dossier.class, dossier);
+			storeData(Infraction.class, infraction);
 		}
 		catch(Exception e){
 			System.out.println("ADD INFRACTION DOSSIER : " + e.getMessage());
