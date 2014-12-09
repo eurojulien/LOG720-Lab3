@@ -13,17 +13,18 @@ import ca.etsmtl.log720.lab3.exceptions.InvalidLoginException;
 import ca.etsmtl.log720.lab3.objetsDonnees.*;
 
 public class GestionDonnees 
-{ 
-	
+{
 	// Hibernate
 	private static Configuration conf 					= null;
 	private static StandardServiceRegistryBuilder sr	= null;
 	private static SessionFactory sessionFactory		= null;
+	private static int staticCPT						= 1;
 	
 	private static GestionDonnees instance = null;
 	
 	ArrayList<Dossier> dossiers = null;
 	ArrayList<Infraction> infractions = null;
+	ArrayList<DossierInfraction> dosInfs = null;
 
 	private GestionDonnees(){
 		
@@ -54,13 +55,26 @@ public class GestionDonnees
 	
 	private void initData(){
 		
-		dossiers 	= new ArrayList<Dossier>();
-		infractions = new ArrayList<Infraction>();
 		
-		dossiers.addAll(getData(Dossier.class));
-		infractions.addAll(getData(Infraction.class));
+		if (dossiers == null){
+			dossiers 	= new ArrayList<Dossier>();
+			dossiers.addAll(getData(Dossier.class));
+		}
+		
+		if (infractions == null){
+			infractions = new ArrayList<Infraction>();
+			infractions.addAll(getData(Infraction.class));
+		}
+		
+		if (dosInfs == null){
+			dosInfs		= new ArrayList<DossierInfraction>();	
+			dosInfs.addAll(getData(DossierInfraction.class));
+		}
+		
+		System.out.println(" JE ME SUIS FAIT INITALISÉ ! C'EST LA  : " + staticCPT++ + " FOIS");
 	
-		if (infractions.size() == 0){
+		// DEBUG MODE
+		/*if (infractions.size() == 0){
 			addInfraction("Excès de vitesse", 1);
 			addInfraction("Conduite imprudente", 3);
 			addInfraction("Conduite avec facultés affaiblies", 5);
@@ -71,7 +85,7 @@ public class GestionDonnees
 			addDossier("Bleau", "Jos", "123 ABC", "P3RM15");
 			addDossier("Cipher", "Luc", "666 HEL", "4Permis5");
 			addDossier("St-Hilaire", "Huguette", "456 DEF", "AsdfPermis");
-		}
+		}*/
 	}
 
 	public Dossier getDossier (int ID)
@@ -128,19 +142,52 @@ public class GestionDonnees
 	public Infraction getInfractionDossier(int idDossier, int idInfraction)
 	{
 		//Retourne une infraction spécifique
+		for(DossierInfraction di : dosInfs){
+			if (di.getDossier().getId() == idDossier && di.getInfraction().getId() == idInfraction){
+				return di.getInfraction();
+			}
+		}
+		
 		return null;
 		//return dossiers.get(idDossier).getInfractions().get(idInfraction);
 	}
 	
 	public ArrayList<Infraction> getInfractionsDossier(int idDossier)
 	{
+		ArrayList<Infraction> infs = new ArrayList<Infraction>();
+		
+		for (DossierInfraction di : dosInfs){
+			if (di.getDossier().getId() == idDossier) {
+				infs.add(di.getInfraction());
+			}
+		}
+		
 		//Retourne une liste d'infractions
-		return null;
+		return infs;
 		//return dossiers.get(idDossier).getInfractions();
 	}
 
 	public void addInfractionDossier(int idDossier, int idInfraction)
 	{
+		try{
+			Infraction infraction 	= infractions.get(idInfraction);
+			Dossier dossier			= dossiers.get(idDossier);
+			
+			DossierInfraction di	= new DossierInfraction();
+			
+			di.setId(dosInfs.size() + 1);
+			di.setDossier(dossiers.get(idDossier));
+			di.setInfraction(infractions.get(idInfraction));
+			
+			dosInfs.add(di);
+			storeData(DossierInfraction.class, di);
+		}
+		catch(Exception e){
+			System.out.println("ADD INFRACTION DOSSIER : " + e.getMessage());
+			return;
+		}
+		
+		
 		System.out.println("Infraction ajoutée au dossier");
 	}
 	
