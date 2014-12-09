@@ -18,8 +18,8 @@
 		Liste des infractions de
 		<s:property value="dossier.getNom()" />,
 		<s:property value="dossier.getPrenom()" />,
-		<s:property value="dossier.getPermisDeConduire()" />,
-		<s:property value="dossier.getNumPlaque()" />:
+		<s:property value="dossier.getNumeropermis()" />,
+		<s:property value="dossier.getNumeroplaque()" />:
 	</h1>
 
 	<table border="solid 1px">
@@ -34,7 +34,7 @@
 		<s:iterator value="infractionsDossier" var="infraction">
 			<tr>
 				<td><s:property value="#infraction.getDescription()" /></td>
-				<td><s:property value="#infraction.getGravite()" /></td>
+				<td><s:property value="#infraction.getNiveaugravite()" /></td>
 			</tr>
 		</s:iterator>
 	</table>

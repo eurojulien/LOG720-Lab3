@@ -27,8 +27,8 @@
 			<tr>
 				<td><s:property value="#dossier.getNom()" />, <s:property
 						value="#dossier.getPrenom()" /></td>
-				<td><s:property value="#dossier.getNumPlaque()" /></td>
-				<td><s:property value="#dossier.getPermisDeConduire()" /></td>
+				<td><s:property value="#dossier.getNumeroplaque()" /></td>
+				<td><s:property value="#dossier.getNumeropermis()" /></td>
 				<td>
 					<form action="listeInfractionsDossier" method="GET">
 						<input type="hidden" name="dossierId"
