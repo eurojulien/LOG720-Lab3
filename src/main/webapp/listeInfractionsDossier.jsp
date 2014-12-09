@@ -44,7 +44,7 @@
 		<form id="ajouterInfraction" action="ajouterInfractionDossier" method="POST">
 		<select name="infractionId">
 			<s:iterator value="listeInfractions" var="infraction">
-				<option value="<s:property value="#infraction.getId()" />"><s:property value="#infraction.getDescription()" /> - <s:property value="#infraction.getGravite()" /></option>
+				<option value="<s:property value="#infraction.getId()" />"><s:property value="#infraction.getDescription()" /> - <s:property value="#infraction.getNiveaugravite()" /></option>
 			</s:iterator>
 		</select>
 		<input type="hidden" name="dossierId" value=<s:property value="dossier.getId()" />>
